@@ -1,3 +1,4 @@
+// CAMADA DE DOMINIO(DOMAIN) - CATEGORIA --> ESSA CAMADA IRA GERAR AS CLASSES PARA O BANCO DE DADOS
 package com.mmpcoder.praticando.domain;
 
 import java.io.Serializable;
