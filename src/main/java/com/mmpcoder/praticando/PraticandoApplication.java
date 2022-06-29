@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.mmpcoder.praticando.domain.Categoria;
 import com.mmpcoder.praticando.domain.Cidade;
+import com.mmpcoder.praticando.domain.Cliente;
+import com.mmpcoder.praticando.domain.Endereco;
 import com.mmpcoder.praticando.domain.Estado;
 import com.mmpcoder.praticando.domain.Produto;
+import com.mmpcoder.praticando.domain.enums.TipoCliente;
 import com.mmpcoder.praticando.repositories.CategoriaRepository;
 import com.mmpcoder.praticando.repositories.CidadeRepository;
+import com.mmpcoder.praticando.repositories.ClienteRepository;
+import com.mmpcoder.praticando.repositories.EnderecoRepository;
 import com.mmpcoder.praticando.repositories.EstadoRepository;
 import com.mmpcoder.praticando.repositories.ProdutoRepository;
 
@@ -27,6 +32,10 @@ public class PraticandoApplication implements CommandLineRunner{ // COMANDO PARA
 	private EstadoRepository estadoRepository;
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PraticandoApplication.class, args);
@@ -66,6 +75,19 @@ public void run(String... args) throws Exception {
 	
 	estadoRepository.saveAll(Arrays.asList(est1, est2));
 	cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+	
+	// PARA CLIENTE, ENDERECO E TELEFONE
+	Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA); // DEVER SER COLOCADO O TIPOCLIENTE.PJ OU PF
+	
+	cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393")); // PARA ADIONAR OS CONJUNTO DE TELEFONE 
+	
+	Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1); // PARA ADICIONAR O ENDERECO
+	Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro","38777012", cli1, c2);
+	
+	cli1.getEnderecos().addAll(Arrays.asList(e1, e2)); // PARA O CLIENTE CONHECER OS ENDERECOS
+	
+	clienteRepository.saveAll(Arrays.asList(cli1));
+	enderecoRepository.saveAll(Arrays.asList(e1, e2));
 	
 }
 
