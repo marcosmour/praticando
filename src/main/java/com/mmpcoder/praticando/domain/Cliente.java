@@ -38,6 +38,9 @@ public class Cliente implements Serializable{
 	@CollectionTable(name = "TELEFONE") // O NOME DA TABELA QUE SERA CRIADO NO BD
 	private Set<String> telefones = new HashSet<>(); // GERANDO A CLASE TELEFONE -  COMO O TELEFONE E APENAS UMA STRING. FOI USADO O SET. UM CONJUNTO DE STRINGS
 	
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
+	
 	public Cliente() {
 		
 	}
@@ -85,6 +88,14 @@ public class Cliente implements Serializable{
 
 	public TipoCliente getTipo() {
 		return TipoCliente.toEnum(tipo); // AQUI FOI USADA O METODO STATICO QUE ESTA NO ENUM TIPOCLIENTE
+	}
+	
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 
 	@Override

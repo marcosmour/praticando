@@ -1,5 +1,6 @@
 package com.mmpcoder.praticando;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import com.mmpcoder.praticando.domain.Cidade;
 import com.mmpcoder.praticando.domain.Cliente;
 import com.mmpcoder.praticando.domain.Endereco;
 import com.mmpcoder.praticando.domain.Estado;
+import com.mmpcoder.praticando.domain.Pagamento;
+import com.mmpcoder.praticando.domain.PagamentoComBoleto;
+import com.mmpcoder.praticando.domain.PagamentoComCartao;
+import com.mmpcoder.praticando.domain.Pedido;
 import com.mmpcoder.praticando.domain.Produto;
+import com.mmpcoder.praticando.domain.enums.EstadoPagamento;
 import com.mmpcoder.praticando.domain.enums.TipoCliente;
 import com.mmpcoder.praticando.repositories.CategoriaRepository;
 import com.mmpcoder.praticando.repositories.CidadeRepository;
 import com.mmpcoder.praticando.repositories.ClienteRepository;
 import com.mmpcoder.praticando.repositories.EnderecoRepository;
 import com.mmpcoder.praticando.repositories.EstadoRepository;
+import com.mmpcoder.praticando.repositories.PagamentoRepository;
+import com.mmpcoder.praticando.repositories.PedidoRepository;
 import com.mmpcoder.praticando.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -36,6 +44,10 @@ public class PraticandoApplication implements CommandLineRunner{ // COMANDO PARA
 	private ClienteRepository clienteRepository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PraticandoApplication.class, args);
@@ -88,6 +100,24 @@ public void run(String... args) throws Exception {
 	
 	clienteRepository.saveAll(Arrays.asList(cli1));
 	enderecoRepository.saveAll(Arrays.asList(e1, e2));
+	
+	// PARA OS PEDIDOS, PAGAMENTO
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm"); // PARA USAR NO ATRIBUTO INSTANTE
+	
+	Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
+	Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, e2);
+	
+	Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+	ped1.setPagamento(pagto1);
+	
+	Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+	ped2.setPagamento(pagto2);
+	
+	cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+	
+	pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+	pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+	
 	
 }
 
