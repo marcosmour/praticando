@@ -24,8 +24,8 @@ public class PedidoResource {
 	private PedidoService service; // ESSE COMANDO PARA ESSA CAMADA ACESSAR A CAMADA DE SERVICO
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<?> find(@PathVariable Integer id) { // @PATHVARIABLE PARA INDICAR QUE O ID DA REQUISIÇÃO SERA O MESMO DOS PARENTESES
-		Pedido obj = service.buscar(id);
+	public ResponseEntity<Pedido> find(@PathVariable Integer id) { // @PATHVARIABLE PARA INDICAR QUE O ID DA REQUISIÇÃO SERA O MESMO DOS PARENTESES
+		Pedido obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 }

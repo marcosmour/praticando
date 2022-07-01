@@ -21,7 +21,7 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repo; // ESSE COMANDO PARA ACESSAR A CAMADA REPOSITORY
 
-	public Cliente buscar(Integer id) { // IRA RECEBER UM ID E RETORNAR O CLIENTE COM ESSE ID
+	public Cliente find(Integer id) { // IRA RECEBER UM ID E RETORNAR O CLIENTE COM ESSE ID
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}

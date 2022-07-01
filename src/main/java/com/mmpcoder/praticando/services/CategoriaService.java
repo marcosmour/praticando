@@ -19,14 +19,23 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repo; // ESSE COMANDO PARA ACESSAR A CAMADA REPOSITORY
 
-	public Categoria buscar(Integer id) {
+	// PARA O METODO GET
+	public Categoria find(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
 	
+	// PARA O METODO POST
 	public Categoria insert(Categoria obj) {
 		obj.setId(null); // PARA GARANTIR QUE O ID A SER INSERIDO SERA NULL
 		return repo.save(obj);
 		
+	}
+	
+	// PARA O METODO PUT
+	
+	public Categoria update(Categoria obj) {
+		find(obj.getId());
+		return repo.save(obj);
 	}
 }

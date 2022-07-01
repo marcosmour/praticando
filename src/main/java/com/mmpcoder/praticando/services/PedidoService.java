@@ -19,7 +19,7 @@ public class PedidoService {
 	@Autowired
 	private PedidoRepository repo; // ESSE COMANDO PARA ACESSAR A CAMADA REPOSITORY
 
-	public Pedido buscar(Integer id) {
+	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
 	}
