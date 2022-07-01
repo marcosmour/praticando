@@ -4,6 +4,7 @@
 
 package com.mmpcoder.praticando.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,10 @@ public class CategoriaService {
 		catch(DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não e possivel excluir uma categoria que possua produtos");
 		}
+	}
+	
+	// PARA BUSCAR TODAS AS CATEGORIAS
+	public List<Categoria> findAll(){
+		return repo.findAll();
 	}
 }
