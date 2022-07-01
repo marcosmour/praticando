@@ -7,10 +7,12 @@ package com.mmpcoder.praticando.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.mmpcoder.praticando.domain.Categoria;
 import com.mmpcoder.praticando.repositories.CategoriaRepository;
+import com.mmpcoder.praticando.services.exceptions.DataIntegrityException;
 import com.mmpcoder.praticando.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -33,9 +35,19 @@ public class CategoriaService {
 	}
 	
 	// PARA O METODO PUT
-	
 	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		return repo.save(obj);
+	}
+	
+	// PARA O METODO DELETAR
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não e possivel excluir uma categoria que possua produtos");
+		}
 	}
 }
