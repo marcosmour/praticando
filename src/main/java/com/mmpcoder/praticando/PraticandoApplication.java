@@ -13,6 +13,7 @@ import com.mmpcoder.praticando.domain.Cidade;
 import com.mmpcoder.praticando.domain.Cliente;
 import com.mmpcoder.praticando.domain.Endereco;
 import com.mmpcoder.praticando.domain.Estado;
+import com.mmpcoder.praticando.domain.ItemPedido;
 import com.mmpcoder.praticando.domain.Pagamento;
 import com.mmpcoder.praticando.domain.PagamentoComBoleto;
 import com.mmpcoder.praticando.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.mmpcoder.praticando.repositories.CidadeRepository;
 import com.mmpcoder.praticando.repositories.ClienteRepository;
 import com.mmpcoder.praticando.repositories.EnderecoRepository;
 import com.mmpcoder.praticando.repositories.EstadoRepository;
+import com.mmpcoder.praticando.repositories.ItemPedidoRepository;
 import com.mmpcoder.praticando.repositories.PagamentoRepository;
 import com.mmpcoder.praticando.repositories.PedidoRepository;
 import com.mmpcoder.praticando.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class PraticandoApplication implements CommandLineRunner{ // COMANDO PARA
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(PraticandoApplication.class, args);
@@ -117,6 +121,22 @@ public void run(String... args) throws Exception {
 	
 	pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 	pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+	
+	// PARA PEDIDO, PRODUTO E ITENSPEDIDO
+	
+	ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+	ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+	ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+	
+	ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+	ped2.getItens().addAll(Arrays.asList(ip3));
+	
+	p1.getItens().addAll(Arrays.asList(ip1));
+	p2.getItens().addAll(Arrays.asList(ip3));
+	p3.getItens().addAll(Arrays.asList(ip2));
+	
+	itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+	
 	
 	
 }
