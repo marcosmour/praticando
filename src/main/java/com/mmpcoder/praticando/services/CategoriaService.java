@@ -41,8 +41,9 @@ public class CategoriaService {
 	
 	// PARA O METODO PUT
 	public Categoria update(Categoria obj) {
-		find(obj.getId());
-		return repo.save(obj);
+		Categoria newObj = find(obj.getId()); // CODIGO ALTERADO NA AULA 41. 13:15
+		updateData(newObj, obj); // METODO CRIADO NA PARTE DE BAIXO DESSA CLASSE
+		return repo.save(newObj);
 	}
 	
 	// PARA O METODO DELETAR
@@ -70,5 +71,10 @@ public class CategoriaService {
 	
 	public Categoria fromDTO(CategoriaDTO objDto) {
 		return new Categoria(objDto.getId(), objDto.getNome());
+	}
+	
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
+		
 	}
 }
