@@ -36,7 +36,6 @@ public class CategoriaService {
 	public Categoria insert(Categoria obj) {
 		obj.setId(null); // PARA GARANTIR QUE O ID A SER INSERIDO SERA NULL
 		return repo.save(obj);
-		
 	}
 	
 	// PARA O METODO PUT
